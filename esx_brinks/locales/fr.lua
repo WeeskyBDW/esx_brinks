@@ -1,0 +1,16 @@
+Locales['fr'] = {
+  ['GPS_info'] = 'La centrale vous a indiqué un distributeur de billets sur votre ~y~GPS~w~.',
+  ['cancel_mission'] = 'Vous avez ~r~annulé~w~ la mission !',
+  ['pickup'] = '~w~Appuyez sur ~b~Numpad 5 ~w~pour récupérer les sacs de billets.',
+  ['end_service'] = 'Terminer son service.',
+  ['take_service'] = 'Prendre son service.',
+  ['end_service_notif'] = 'Fin de ~r~service~w~.',
+  ['take_service_notif'] = 'Prise de ~g~service~w~.',
+  ['start_job'] = 'Utilisez la touche ~b~SUPPR ~w~pour commencer votre ~b~tournée~w~.',
+  ['Vehicle_Menu_Title'] = 'Véhicule de service',
+  ['in_vehicle'] = '~r~Sortez de votre véhicule !',
+  ['vehicle_broken'] = '~r~Vous devez réparer le véhicule avant !',
+  ['bad_vehicle'] = 'Vous ne pouvez ranger que des ~b~véhicules de service ~w~!',
+  ['not_good_veh'] = '~r~Vous devez être dans votre véhicule de service !',
+  ['stop_npc'] = '~w~Action ~r~impossible~s~ : Rendez-vous au dépôt !',
+}
