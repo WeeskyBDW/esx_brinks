@@ -252,17 +252,17 @@ AddEventHandler('esx_brinks:hasEnteredMarker', function(zone)
 		end
 	end
 
-	if zone == 'Vente' then
-		CurrentAction = 'vente'
-		CurrentActionMsg = Config.Zones.Vente.hint
+	if zone == 'Sell' then
+		CurrentAction = 'Sell'
+		CurrentActionMsg = Config.Zones.Sell.hint
 		CurrentActionData = {}
 	end
 end)
 
 -- When the player leaves the zone
 AddEventHandler('esx_brinks:hasExitedMarker', function(zone)
-	if zone == 'Vente' then
-		TriggerServerEvent('esx_brinks:stopVente')
+	if zone == 'Sell' then
+		TriggerServerEvent('esx_brinks:stopSell')
 	end
 
 	CurrentAction = nil
@@ -296,13 +296,13 @@ function CreateBlip()
 		AddTextComponentString(Config.Zones.VehicleSpawner.BlipName)
 		EndTextCommandSetBlipName(BlipVehicle)
 
-		BlipVente = AddBlipForCoord(Config.Zones.Vente.Pos.x, Config.Zones.Vente.Pos.y, Config.Zones.Vente.Pos.z)
-		SetBlipSprite(BlipVente, Config.Zones.Vente.BlipSprite)
-		SetBlipColour(BlipVente, Config.Zones.Vente.BlipColor)
-		SetBlipAsShortRange(BlipVente, true)
+		BlipSell = AddBlipForCoord(Config.Zones.Sell.Pos.x, Config.Zones.Sell.Pos.y, Config.Zones.Sell.Pos.z)
+		SetBlipSprite(BlipSell, Config.Zones.Sell.BlipSprite)
+		SetBlipColour(BlipSell, Config.Zones.Sell.BlipColor)
+		SetBlipAsShortRange(BlipSell, true)
 		BeginTextCommandSetBlipName("STRING")
-		AddTextComponentString(Config.Zones.Vente.BlipName)
-		EndTextCommandSetBlipName(BlipVente)
+		AddTextComponentString(Config.Zones.Sell.BlipName)
+		EndTextCommandSetBlipName(BlipSell)
 
 		BlipVehicleDeleter = AddBlipForCoord(Config.Zones.VehicleDeleter.Pos.x, Config.Zones.VehicleDeleter.Pos.y, Config.Zones.VehicleDeleter.Pos.z)
 		SetBlipSprite(BlipVehicleDeleter, Config.Zones.VehicleDeleter.BlipSprite)
@@ -317,9 +317,9 @@ function CreateBlip()
 			BlipVehicle = nil
 		end
 
-		if BlipVente ~= nil then
-			RemoveBlip(BlipVente)
-			BlipVente = nil
+		if BlipSell ~= nil then
+			RemoveBlip(BlipSell)
+			BlipSell = nil
 		end
 
 		if BlipVehicleDeleter ~= nil then
@@ -432,8 +432,8 @@ Citizen.CreateThread(function()
 						end
 					end
 
-					if CurrentAction == 'vente' then
-						TriggerServerEvent('esx_brinks:startVente')
+					if CurrentAction == 'Sell' then
+						TriggerServerEvent('esx_brinks:startSell')
 					end
 
 					if CurrentAction == 'delete_vehicle' then
