@@ -97,7 +97,7 @@ Citizen.CreateThread(function()
 			if GetDistanceBetweenCoords(coords, zone.Pos.x, zone.Pos.y, zone.Pos.z, true) < 3 then
 				HelpPromt(_U('pickup'))
 
-				if IsControlJustReleased(1, Keys["N5"]) and PlayerData.job ~= nil then
+				if IsControlJustReleased(1, Keys["N5"]) then
 					StopNPCJob()
 					Wait(300)
 					Done = false
@@ -270,24 +270,21 @@ AddEventHandler('esx_brinks:hasExitedMarker', function(zone)
 end)
 
 function CreateBlip()
-	if PlayerData.job ~= nil and PlayerData.job.name == Config.nameJob then
-		if BlipCloakRoom == nil then
-			BlipCloakRoom = AddBlipForCoord(Config.Zones.Cloakroom.Pos.x, Config.Zones.Cloakroom.Pos.y, Config.Zones.Cloakroom.Pos.z)
-			SetBlipSprite(BlipCloakRoom, Config.Zones.Cloakroom.BlipSprite)
-			SetBlipColour(BlipCloakRoom, Config.Zones.Cloakroom.BlipColor)
-			SetBlipAsShortRange(BlipCloakRoom, true)
-			BeginTextCommandSetBlipName("STRING")
-			AddTextComponentString(Config.Zones.Cloakroom.BlipName)
-			EndTextCommandSetBlipName(BlipCloakRoom)
-		end
-	else
-		if BlipCloakRoom ~= nil then
-			RemoveBlip(BlipCloakRoom)
-			BlipCloakRoom = nil
-		end
+	if BlipCloakRoom == nil then
+		BlipCloakRoom = AddBlipForCoord(Config.Zones.Cloakroom.Pos.x, Config.Zones.Cloakroom.Pos.y, Config.Zones.Cloakroom.Pos.z)
+		SetBlipSprite(BlipCloakRoom, Config.Zones.Cloakroom.BlipSprite)
+		SetBlipColour(BlipCloakRoom, Config.Zones.Cloakroom.BlipColor)
+		SetBlipAsShortRange(BlipCloakRoom, true)
+		BeginTextCommandSetBlipName("STRING")
+		AddTextComponentString(Config.Zones.Cloakroom.BlipName)
+		EndTextCommandSetBlipName(BlipCloakRoom)
+	end
+	if BlipCloakRoom ~= nil then
+		RemoveBlip(BlipCloakRoom)
+		BlipCloakRoom = nil
 	end
 
-	if PlayerData.job ~= nil and PlayerData.job.name == Config.nameJob and onDuty then
+	if onDuty then
 		BlipVehicle = AddBlipForCoord(Config.Zones.VehicleSpawner.Pos.x, Config.Zones.VehicleSpawner.Pos.y, Config.Zones.VehicleSpawner.Pos.z)
 		SetBlipSprite(BlipVehicle, Config.Zones.VehicleSpawner.BlipSprite)
 		SetBlipColour(BlipVehicle, Config.Zones.VehicleSpawner.BlipColor)
@@ -333,27 +330,21 @@ end
 Citizen.CreateThread(function()
 	while true do
 		Wait(0)
-
-		if PlayerData.job ~= nil then
-			local coords = GetEntityCoords(GetPlayerPed(-1))
-
-			if PlayerData.job.name == Config.nameJob then
-				if onDuty then
-					for k, v in pairs(Config.Zones) do
-						if v ~= Config.Zones.Cloakroom then
-							if(v.Type ~= -1 and GetDistanceBetweenCoords(coords, v.Pos.x, v.Pos.y, v.Pos.z, true) < Config.DrawDistance) then
-								DrawMarker(v.Type, v.Pos.x, v.Pos.y, v.Pos.z, 0.0, 0.0, 0.0, 0, 0.0, 0.0, v.Size.x, v.Size.y, v.Size.z, v.Color.r, v.Color.g, v.Color.b, 100, false, true, 2, false, false, false, false)
-							end
-						end
+		local coords = GetEntityCoords(GetPlayerPed(-1))
+		if onDuty then
+			for k, v in pairs(Config.Zones) do
+				if v ~= Config.Zones.Cloakroom then
+					if(v.Type ~= -1 and GetDistanceBetweenCoords(coords, v.Pos.x, v.Pos.y, v.Pos.z, true) < Config.DrawDistance) then
+						DrawMarker(v.Type, v.Pos.x, v.Pos.y, v.Pos.z, 0.0, 0.0, 0.0, 0, 0.0, 0.0, v.Size.x, v.Size.y, v.Size.z, v.Color.r, v.Color.g, v.Color.b, 100, false, true, 2, false, false, false, false)
 					end
 				end
-
-				local Cloakroom = Config.Zones.Cloakroom
-
-				if(Cloakroom.Type ~= -1 and GetDistanceBetweenCoords(coords, Cloakroom.Pos.x, Cloakroom.Pos.y, Cloakroom.Pos.z, true) < Config.DrawDistance) then
-					DrawMarker(Cloakroom.Type, Cloakroom.Pos.x, Cloakroom.Pos.y, Cloakroom.Pos.z, 0.0, 0.0, 0.0, 0, 0.0, 0.0, Cloakroom.Size.x, Cloakroom.Size.y, Cloakroom.Size.z, Cloakroom.Color.r, Cloakroom.Color.g, Cloakroom.Color.b, 100, false, true, 2, false, false, false, false)
-				end
 			end
+		end
+
+		local Cloakroom = Config.Zones.Cloakroom
+
+		if(Cloakroom.Type ~= -1 and GetDistanceBetweenCoords(coords, Cloakroom.Pos.x, Cloakroom.Pos.y, Cloakroom.Pos.z, true) < Config.DrawDistance) then
+			DrawMarker(Cloakroom.Type, Cloakroom.Pos.x, Cloakroom.Pos.y, Cloakroom.Pos.z, 0.0, 0.0, 0.0, 0, 0.0, 0.0, Cloakroom.Size.x, Cloakroom.Size.y, Cloakroom.Size.z, Cloakroom.Color.r, Cloakroom.Color.g, Cloakroom.Color.b, 100, false, true, 2, false, false, false, false)
 		end
 	end
 end)
@@ -363,41 +354,37 @@ Citizen.CreateThread(function()
 	while true do
 		Wait(1)
 
-		if PlayerData.job ~= nil then
-			local coords = GetEntityCoords(GetPlayerPed(-1))
-			local isInMarker = false
-			local currentZone = nil
+		local coords = GetEntityCoords(GetPlayerPed(-1))
+		local isInMarker = false
+		local currentZone = nil
 
-			if PlayerData.job.name == Config.nameJob then
-				if onDuty then
-					for k, v in pairs(Config.Zones) do
-						if v ~= Config.Zones.Cloakroom then
-							if(GetDistanceBetweenCoords(coords, v.Pos.x, v.Pos.y, v.Pos.z, true) <= v.Size.x) then
-								isInMarker = true
-								currentZone = k
-							end
-						end
+		if onDuty then
+			for k, v in pairs(Config.Zones) do
+				if v ~= Config.Zones.Cloakroom then
+					if(GetDistanceBetweenCoords(coords, v.Pos.x, v.Pos.y, v.Pos.z, true) <= v.Size.x) then
+						isInMarker = true
+						currentZone = k
 					end
 				end
-
-				local Cloakroom = Config.Zones.Cloakroom
-
-				if(GetDistanceBetweenCoords(coords, Cloakroom.Pos.x, Cloakroom.Pos.y, Cloakroom.Pos.z, true) <= Cloakroom.Size.x) then
-					isInMarker = true
-					currentZone = "Cloakroom"
-				end
 			end
+		end
 
-			if (isInMarker and not HasAlreadyEnteredMarker) or (isInMarker and LastZone ~= currentZone) then
-				HasAlreadyEnteredMarker = true
-				LastZone = currentZone
-				TriggerEvent('esx_brinks:hasEnteredMarker', currentZone)
-			end
+		local Cloakroom = Config.Zones.Cloakroom
 
-			if not isInMarker and HasAlreadyEnteredMarker then
-				HasAlreadyEnteredMarker = false
-				TriggerEvent('esx_brinks:hasExitedMarker', LastZone)
-			end
+		if(GetDistanceBetweenCoords(coords, Cloakroom.Pos.x, Cloakroom.Pos.y, Cloakroom.Pos.z, true) <= Cloakroom.Size.x) then
+			isInMarker = true
+			currentZone = "Cloakroom"
+		end
+
+		if (isInMarker and not HasAlreadyEnteredMarker) or (isInMarker and LastZone ~= currentZone) then
+			HasAlreadyEnteredMarker = true
+			LastZone = currentZone
+			TriggerEvent('esx_brinks:hasEnteredMarker', currentZone)
+		end
+
+		if not isInMarker and HasAlreadyEnteredMarker then
+			HasAlreadyEnteredMarker = false
+			TriggerEvent('esx_brinks:hasExitedMarker', LastZone)
 		end
 	end
 end)
@@ -412,48 +399,46 @@ Citizen.CreateThread(function()
 			AddTextComponentString(CurrentActionMsg)
 			DisplayHelpTextFromStringLabel(0, 0, 1, - 1)
 
-			if (IsControlJustReleased(1, Keys["E"]) or IsControlJustReleased(2, Keys["RIGHT"])) and PlayerData.job ~= nil then
+			if (IsControlJustReleased(1, Keys["E"]) or IsControlJustReleased(2, Keys["RIGHT"])) then
 				local playerPed = GetPlayerPed(-1)
 
-				if PlayerData.job.name == Config.nameJob then
-					if CurrentAction == 'cloakroom_menu' then
-						if IsPedInAnyVehicle(playerPed, 0) then
-							ESX.ShowNotification(_U('in_vehicle'))
-						else
-							CloakRoomMenu()
-						end
+				if CurrentAction == 'cloakroom_menu' then
+					if IsPedInAnyVehicle(playerPed, 0) then
+						ESX.ShowNotification(_U('in_vehicle'))
+					else
+						CloakRoomMenu()
 					end
+				end
 
-					if CurrentAction == 'vehiclespawn_menu' then
-						if IsPedInAnyVehicle(playerPed, 0) then
-							ESX.ShowNotification(_U('in_vehicle'))
-						else
-							VehicleMenu()
-						end
+				if CurrentAction == 'vehiclespawn_menu' then
+					if IsPedInAnyVehicle(playerPed, 0) then
+						ESX.ShowNotification(_U('in_vehicle'))
+					else
+						VehicleMenu()
 					end
+				end
 
-					if CurrentAction == 'Sell' then
-						TriggerServerEvent('esx_brinks:startSell')
-					end
+				if CurrentAction == 'Sell' then
+					TriggerServerEvent('esx_brinks:startSell')
+				end
 
-					if CurrentAction == 'delete_vehicle' then
-						local playerPed = GetPlayerPed(-1)
-						local vehicle = GetVehiclePedIsIn(playerPed, false)
-						local hash = GetEntityModel(vehicle)
-						local plate = GetVehicleNumberPlateText(vehicle)
-						local plate = string.gsub(plate, " ", "")
-						local platePrefix = Config.platePrefix
+				if CurrentAction == 'delete_vehicle' then
+					local playerPed = GetPlayerPed(-1)
+					local vehicle = GetVehiclePedIsIn(playerPed, false)
+					local hash = GetEntityModel(vehicle)
+					local plate = GetVehicleNumberPlateText(vehicle)
+					local plate = string.gsub(plate, " ", "")
+					local platePrefix = Config.platePrefix
 
-						if string.find (plate, platePrefix) then
-							local truck = Config.Vehicles.Truck
+					if string.find (plate, platePrefix) then
+						local truck = Config.Vehicles.Truck
 
-							if hash == GetHashKey(truck.Hash) then
-								if GetVehicleEngineHealth(vehicle) <= 500 or GetVehicleBodyHealth(vehicle) <= 500 then
-									ESX.ShowNotification(_U('vehicle_broken'))
-								else
-									TriggerServerEvent('esx_vehiclelock:vehjobSup', plate, 'no')
-									DeleteVehicle(vehicle)
-								end
+						if hash == GetHashKey(truck.Hash) then
+							if GetVehicleEngineHealth(vehicle) <= 500 or GetVehicleBodyHealth(vehicle) <= 500 then
+								ESX.ShowNotification(_U('vehicle_broken'))
+							else
+								TriggerServerEvent('esx_vehiclelock:vehjobSup', plate, 'no')
+								DeleteVehicle(vehicle)
 							end
 						else
 							ESX.ShowNotification(_U('bad_vehicle'))
@@ -470,7 +455,7 @@ Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
 
-		if IsControlJustReleased(1, Keys["DELETE"]) and PlayerData.job ~= nil and PlayerData.job.name == Config.nameJob then
+		if IsControlJustReleased(1, Keys["DELETE"]) then
 			if Onjob then
 				StopNPCJob(true)
 				RemoveBlip(Blips['NPCTargetDAB'])
