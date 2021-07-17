@@ -41,12 +41,6 @@ AddEventHandler('esx:playerLoaded', function(xPlayer)
 	CreateBlip()
 end)
 
-RegisterNetEvent('esx:setJob')
-AddEventHandler('esx:setJob', function(job)
-	PlayerData.job = job
-	onDuty = false
-	CreateBlip()
-end)
 
 -- NPC MISSIONS
 
@@ -270,19 +264,13 @@ AddEventHandler('esx_brinks:hasExitedMarker', function(zone)
 end)
 
 function CreateBlip()
-	if BlipCloakRoom == nil then
-		BlipCloakRoom = AddBlipForCoord(Config.Zones.Cloakroom.Pos.x, Config.Zones.Cloakroom.Pos.y, Config.Zones.Cloakroom.Pos.z)
-		SetBlipSprite(BlipCloakRoom, Config.Zones.Cloakroom.BlipSprite)
-		SetBlipColour(BlipCloakRoom, Config.Zones.Cloakroom.BlipColor)
-		SetBlipAsShortRange(BlipCloakRoom, true)
-		BeginTextCommandSetBlipName("STRING")
-		AddTextComponentString(Config.Zones.Cloakroom.BlipName)
-		EndTextCommandSetBlipName(BlipCloakRoom)
-	end
-	if BlipCloakRoom ~= nil then
-		RemoveBlip(BlipCloakRoom)
-		BlipCloakRoom = nil
-	end
+	BlipCloakRoom = AddBlipForCoord(0.35, -660.1, 33.48)
+	SetBlipSprite(BlipCloakRoom, 67)
+	SetBlipColour(BlipCloakRoom, 27)
+	SetBlipAsShortRange(BlipCloakRoom, true)
+	BeginTextCommandSetBlipName("STRING")
+	AddTextComponentString("Mon cul")
+	EndTextCommandSetBlipName(BlipCloakRoom)
 
 	if onDuty then
 		BlipVehicle = AddBlipForCoord(Config.Zones.VehicleSpawner.Pos.x, Config.Zones.VehicleSpawner.Pos.y, Config.Zones.VehicleSpawner.Pos.z)
