@@ -264,12 +264,12 @@ AddEventHandler('esx_brinks:hasExitedMarker', function(zone)
 end)
 
 function CreateBlip()
-	BlipCloakRoom = AddBlipForCoord(0.35, -660.1, 33.48)
-	SetBlipSprite(BlipCloakRoom, 67)
-	SetBlipColour(BlipCloakRoom, 27)
+	BlipCloakRoom = AddBlipForCoord(Config.Zones.Cloakroom.Pos.x, Config.Zones.Cloakroom.Pos.y, Config.Zones.Cloakroom.Pos.z)
+	SetBlipSprite(BlipCloakRoom, Config.Zones.Cloakroom.BlipSprite)
+	SetBlipColour(BlipCloakRoom, Config.Zones.Cloakroom.BlipColor)
 	SetBlipAsShortRange(BlipCloakRoom, true)
 	BeginTextCommandSetBlipName("STRING")
-	AddTextComponentString("Mon cul")
+	AddTextComponentString(Config.Zones.Cloakroom.BlipName)
 	EndTextCommandSetBlipName(BlipCloakRoom)
 
 	if onDuty then
