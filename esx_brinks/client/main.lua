@@ -454,8 +454,6 @@ Citizen.CreateThread(function()
 				if IsPedInAnyVehicle(playerPed, false) and IsVehicleModel(GetVehiclePedIsIn(playerPed, false), GetHashKey("stockade")) then
 					StartNPCJob()
 					Onjob = true
-				else
-					ESX.ShowNotification(_U('not_good_veh'))
 				end
 			end
 		end
